@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { User, Menu, X, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -26,7 +27,19 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <motion.div 
+            className="flex items-center cursor-pointer"
+            animate={{
+              y: [0, -8, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <Image
               src="/cine-escola-logo.png"
               alt="Cine Escola"
@@ -35,7 +48,7 @@ export function Navbar() {
               className="object-contain"
               priority
             />
-          </div>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
