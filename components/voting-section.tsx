@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -91,33 +92,47 @@ export function VotingSection() {
 
         {/* Voting Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card>
-            <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold">{totalVotes.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Total de Votos</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <Clock className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold">2d 14h</div>
-              <div className="text-sm text-muted-foreground">Tempo Restante</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
-              <div className="text-2xl font-bold">4</div>
-              <div className="text-sm text-muted-foreground">Filmes Concorrendo</div>
-            </CardContent>
-          </Card>
+          {[
+            { icon: Users, value: totalVotes.toLocaleString(), label: "Total de Votos" },
+            { icon: Clock, value: "2d 14h", label: "Tempo Restante" },
+            { icon: Trophy, value: "4", label: "Filmes Concorrendo" }
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2, duration: 0.5 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05, y: -5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <stat.icon className="h-8 w-8 text-primary mx-auto mb-2" />
+                    <div className="text-2xl font-bold">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Voting Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {votingMovies.map((movie, index) => (
-            <Card key={movie.id} className="movie-card overflow-hidden">
+            <motion.div
+              key={movie.id}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + index * 0.1, duration: 0.6 }}
+            >
+              <motion.div
+                whileHover={{ y: -10 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Card className="movie-card overflow-hidden">
               <div className="relative">
                 <img src={movie.image || "/placeholder.svg"} alt={movie.title} className="w-full h-64 object-cover" />
                 <div className="absolute top-3 left-3">
@@ -170,6 +185,8 @@ export function VotingSection() {
                 </div>
               </CardContent>
             </Card>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
 

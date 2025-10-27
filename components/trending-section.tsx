@@ -1,3 +1,6 @@
+"use client"
+
+import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Star, TrendingUp, Eye } from "lucide-react"
@@ -81,7 +84,17 @@ export function TrendingSection() {
         {/* Trending Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
           {trendingMovies.map((movie, index) => (
-            <Card key={movie.id} className="movie-card overflow-hidden group cursor-pointer">
+            <motion.div
+              key={movie.id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05, y: -10 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Card className="movie-card overflow-hidden group cursor-pointer">
               <div className="relative">
                 <img
                   src={movie.image || "/placeholder.svg"}
@@ -138,6 +151,8 @@ export function TrendingSection() {
                 </div>
               </div>
             </Card>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
 
